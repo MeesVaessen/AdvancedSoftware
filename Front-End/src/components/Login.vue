@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { login } from '@/Services/AuthService'; // Import the login method from authService
+import { login } from '@/Services/authService.js'; // Import the login method from authService
 
 export default {
   data() {

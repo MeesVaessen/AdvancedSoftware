@@ -4,7 +4,7 @@
     <div class="nav-links">
       <router-link to="/" class="nav-link">Home</router-link>
       <router-link to="/register" class="nav-link">Register</router-link>
-      <router-link to="/contact" class="nav-link">Contact</router-link>
+      <router-link to="/posts" class="nav-link">Posts</router-link>
       <!-- Add more pages here -->
     </div>
 
@@ -19,7 +19,7 @@
 <script>
 import {computed } from 'vue';
 import { useAuthStore } from '@/stores/authStore';  // Import the Pinia store
-import {logout } from '@/Services/AuthService.js';
+import {logout } from '@/Services/authService.js';
 import router from "@/router/index.js";  // Import auth service
 
 export default {

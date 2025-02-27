@@ -16,6 +16,21 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
+
+    /**
+     * Indicates if the model's ID is auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The data type of the model ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -63,6 +78,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTCustomClaims(): array
     {
-        return ['roles' => $this->roles->pluck('name')->toArray()];
-    }
+        return [
+            'user_id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'roles' => $this->roles->pluck('name')->toArray(),
+            // Add any other user information you need
+        ];    }
 }

@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post', function (Blueprint $table) {
-            $table->id();
+        Schema::create('posts', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('title');
+            $table->text('body');
+            $table->integer('likes')->default(0);
+            $table->integer('dislikes')->default(0);
+            $table->uuid('created_by');
             $table->timestamps();
         });
     }
