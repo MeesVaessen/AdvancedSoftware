@@ -4,7 +4,7 @@ import apiService from './apiService';
 // Login request
 export const login = async (credentials) => {
   try {
-    const response = await apiService.post('/login', credentials);
+    const response = await apiService.post('/auth/login', credentials);
 
     const token = response.data.token;
     const user = response.data.user;
@@ -21,7 +21,14 @@ export const login = async (credentials) => {
 
 export const register = async (userData) => {
   try {
-    return await apiService.post('/register', userData);
+    const response = await apiService.post('/auth/register', userData);
+    const token = response.data.token;
+    const user = response.data.user;
+
+    const authStore = useAuthStore();
+    authStore.setAuthData(token, user);
+
+    return response;
   } catch (error) {
     console.error('Registration failed:', error);
     throw error;
@@ -30,7 +37,7 @@ export const register = async (userData) => {
 
 export const getUserData = async () => {
   try {
-    const response = await apiService.get('/user'); // API call to fetch user data
+    const response = await apiService.get('/auth/user'); // API call to fetch user data
     return response.data;
   } catch (error) {
     console.error('Failed to fetch user data:', error);
@@ -40,7 +47,7 @@ export const getUserData = async () => {
 
 export const logout = async () => {
   try {
-    const response = await apiService.post('/logout'); // API call to log the user out
+    const response = await apiService.post('/auth/logout'); // API call to log the user out
 
     const authStore = useAuthStore();
     authStore.logout();

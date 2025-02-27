@@ -3,7 +3,7 @@
     <!-- Pages in the middle -->
     <div class="nav-links">
       <router-link to="/" class="nav-link">Home</router-link>
-      <router-link to="/about" class="nav-link">About</router-link>
+      <router-link to="/register" class="nav-link">Register</router-link>
       <router-link to="/contact" class="nav-link">Contact</router-link>
       <!-- Add more pages here -->
     </div>

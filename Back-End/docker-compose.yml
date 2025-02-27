@@ -1,0 +1,108 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_gateway
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - authentication-service
+      - post-service
+    networks:
+      - laravel_network
+
+  authentication-service:
+    build:
+      context: ./authentication-service
+      dockerfile: Dockerfile
+    container_name: AuthenticationService
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./authentication-service:/var/www/html
+    depends_on:
+      db_authentication-service:
+        condition: service_healthy
+    environment:
+      APP_ENV: local
+      DB_CONNECTION: mysql
+      DB_HOST: db_authentication-service  # Correct the DB_HOST to match the db service name
+      DB_PORT: 3306
+      DB_DATABASE: AuthenticationService_db
+      DB_USERNAME: myuser
+      DB_PASSWORD: mypassword
+    networks:
+      - laravel_network
+    ports:
+      - "8001:8000"
+
+  post-service:
+    build:
+      context: ./post-service
+      dockerfile: Dockerfile
+    container_name: PostService
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./post-service:/var/www/html
+    depends_on:
+      db_post-service:
+        condition: service_healthy
+    environment:
+      APP_ENV: local
+      DB_CONNECTION: mysql
+      DB_HOST: db_post-service  # Correct the DB_HOST to match the db service name
+      DB_PORT: 3306
+      DB_DATABASE: PostService_db
+      DB_USERNAME: myuser
+      DB_PASSWORD: mypassword
+    networks:
+      - laravel_network
+    ports:
+      - "8002:8000"
+
+  db_authentication-service:
+    image: mysql:8
+    container_name: db_AuthenticationService
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: AuthenticationService_db
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data_AuthenticationService:/var/lib/mysql
+    networks:
+      - laravel_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 3
+
+  db_post-service:
+    image: mysql:8
+    container_name: db_PostService
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: PostService_db
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data_PostService:/var/lib/mysql
+    networks:
+      - laravel_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 3
+
+networks:
+  laravel_network:
+    driver: bridge
+
+volumes:
+  db_data_AuthenticationService:
+  db_data_PostService:
