@@ -16,7 +16,8 @@ class postRepository implements postRepositoryInterface
             'title' => $data['title'],
             'body' => $data['body'],
             'created_by' => '',
-        ]);    }
+        ]);
+    }
 
     public function show($id)
     {
