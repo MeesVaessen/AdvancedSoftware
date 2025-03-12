@@ -8,7 +8,6 @@ variables:
   dockerRegistryServiceConnection: 'ae44d01b-cfe4-414c-8251-3867ea59ec20'
   containerRegistry: 'advancedsoftware.azurecr.io'
   tag: '$(Build.BuildId)'
-  vmImageName: 'ubuntu-latest'
 
   # Define repositories for services
   authServiceImageRepository: 'authentication-service'
@@ -25,7 +24,7 @@ stages:
   - job: Build
     displayName: Build Docker Images
     pool:
-      vmImage: $(vmImageName)
+      name: 'Default'  # Replace with your agent pool name
     steps:
     - task: Docker@2
       displayName: Build and push authentication-service image
