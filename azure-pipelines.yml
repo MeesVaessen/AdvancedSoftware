@@ -1,0 +1,48 @@
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  dockerRegistryServiceConnection: 'ae44d01b-cfe4-414c-8251-3867ea59ec20'
+  containerRegistry: 'advancedsoftware.azurecr.io'
+  tag: '$(Build.BuildId)'
+  vmImageName: 'ubuntu-latest'
+
+  # Define repositories for services
+  authServiceImageRepository: 'authentication-service'
+  postServiceImageRepository: 'post-service'
+
+  # Dockerfile paths
+  authServiceDockerfilePath: '$(Build.SourcesDirectory)/Back-End/authentication-service/Dockerfile'
+  postServiceDockerfilePath: '$(Build.SourcesDirectory)/Back-End/post-service/Dockerfile'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build Docker Images
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push authentication-service image
+      inputs:
+        command: buildAndPush
+        repository: $(authServiceImageRepository)
+        dockerfile: $(authServiceDockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Build and push post-service image
+      inputs:
+        command: buildAndPush
+        repository: $(postServiceImageRepository)
+        dockerfile: $(postServiceDockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
