@@ -19,15 +19,15 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build and Push Stage
   jobs:
-  - job: Build
-    displayName: Build Docker Images
+  - job: BuildAuthService
+    displayName: Build Authentication Service
     pool:
-      name: 'Default'  # Replace with your agent pool name
+      name: 'Default'
     steps:
     - task: Docker@2
-      displayName: Build and push authentication-service image
+      displayName: Build and Push Authentication Service Image
       inputs:
         command: buildAndPush
         repository: $(authServiceImageRepository)
@@ -36,8 +36,13 @@ stages:
         tags: |
           $(tag)
 
+  - job: BuildPostService
+    displayName: Build Post Service
+    pool:
+      name: 'Default'
+    steps:
     - task: Docker@2
-      displayName: Build and push post-service image
+      displayName: Build and Push Post Service Image
       inputs:
         command: buildAndPush
         repository: $(postServiceImageRepository)
