@@ -14,7 +14,9 @@ variables:
   imageRepository: 'meesvaessenadvancedsoftware'
   containerRegistry: 'advancedsoftware.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Back-End/authentication-service/Dockerfile'
-  tag: '$(Build.BuildId)'
+  
+  # Tagging format
+  tag: '$(Build.BuildId)'  # You could use $(Build.SourceBranchName) or $(Build.Commit) for more specific tags
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -24,7 +26,7 @@ stages:
   displayName: Build and push stage
   jobs:
   - job: Build
-    displayName: Build
+    displayName: Build and Push Docker Image
     pool:
       name: default
     steps:
@@ -32,8 +34,9 @@ stages:
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
+        repository: $(containerRegistry)/$(imageRepository)  # Full image path in the container registry
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+          latest  # Optional: Tagging with "latest" as well
