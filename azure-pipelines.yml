@@ -82,7 +82,7 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          kubectl apply -f $(Build.SourcesDirectory)/kubernetes/authentication-service-deployment.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/authentication-service-deployment.yaml
           
     - task: AzureCLI@2
       displayName: 'Deploy post-service to AKS'
@@ -91,4 +91,4 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          kubectl apply -f $(Build.SourcesDirectory)/kubernetes/post-service-deployment.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/post-service-deployment.yaml
