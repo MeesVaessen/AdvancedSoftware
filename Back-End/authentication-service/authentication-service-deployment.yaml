@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: authentication-service
-          image: advancedsoftware.azurecr.io/authentication-service:latest
+          image: advancedsoftware.azurecr.io/advancedsoftware.azurecr.io/authentication-service:latest
           ports:
             - containerPort: 8000
           env:
@@ -32,6 +32,9 @@ spec:
               value: "mees"
             - name: DB_PASSWORD
               value: "Advanced_Software1"
+      imagePullSecrets:
+        - name: acr-secret #This can be removed if you have the managed identity working.
+
 ---
 apiVersion: v1
 kind: Service
