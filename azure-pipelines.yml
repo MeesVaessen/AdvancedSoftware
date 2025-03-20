@@ -66,6 +66,10 @@ stages:
     pool:
       name: default
     steps:
+    - script: |
+        echo "Listing files in the build directory:"
+        ls -R $(Build.SourcesDirectory)
+        displayName: 'List files in repository'
     - task: AzureCLI@2
       displayName: 'Set up kubectl'
       inputs:
