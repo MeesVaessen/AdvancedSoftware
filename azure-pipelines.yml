@@ -66,10 +66,6 @@ stages:
     pool:
       name: default
     steps:
-    - script: |
-        echo "Listing files in the build directory:"
-        ls -R $(Build.SourcesDirectory)
-        displayName: 'List files in repository'
     - task: AzureCLI@2
       displayName: 'Set up kubectl'
       inputs:
@@ -86,7 +82,7 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          kubectl apply -f $(Build.SourcesDirectory)/authentication-service-deployment.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/authentication-service-deployment.yaml
           
     - task: AzureCLI@2
       displayName: 'Deploy post-service to AKS'
@@ -95,4 +91,4 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          kubectl apply -f $(Build.SourcesDirectory)/post-service-deployment.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/post-service/post-service-deployment.yaml
