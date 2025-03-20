@@ -18,7 +18,7 @@ variables:
   postDockerfilePath: '$(Build.SourcesDirectory)/Back-End/post-service/Dockerfile'
 
   # Kubernetes Cluster details
-  aksClusterName: 'AKS-1'
+  aksClusterName: 'AKS-2'
   aksResourceGroup: 'AdvancedSoftware'
 
   # Tagging format
