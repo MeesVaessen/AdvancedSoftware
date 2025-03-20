@@ -51,7 +51,7 @@ stages:
       displayName: Build and push post-service
       inputs:
         command: buildAndPush
-        repository: $(containerRegistry)/$(postImageRepository)
+        repository: $(postImageRepository)
         dockerfile: $(postDockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
