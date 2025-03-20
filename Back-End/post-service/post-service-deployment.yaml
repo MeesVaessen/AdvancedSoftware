@@ -32,6 +32,8 @@ spec:
               value: "mees"
             - name: DB_PASSWORD
               value: "Advanced_Software1"
+      imagePullSecrets:
+        - name: acr-auth
 ---
 apiVersion: v1
 kind: Service
