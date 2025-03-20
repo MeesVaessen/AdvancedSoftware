@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: authentication-service
-          image: advancedsoftware.azurecr.io/advancedsoftware.azurecr.io/authentication-service:latest
+          image: advancedsoftware.azurecr.io/authentication-service:latest
           ports:
             - containerPort: 8000
           env:
