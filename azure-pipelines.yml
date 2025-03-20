@@ -5,9 +5,11 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection
-  dockerRegistryServiceConnection: '7147f71d-fe16-4654-b741-fb238a729eca'
-  containerRegistry: 'advancedsoftware.azurecr.io'
+  # Docker Hub service connection (Update this with your Docker Hub connection ID)
+  dockerRegistryServiceConnection: '35728069-faa4-4196-9ccf-b811ad14a147'
+  
+  # Docker Hub repository (Replace 'your-dockerhub-username' with your actual Docker Hub username)
+  containerRegistry: 'meesvaessen'
 
   # Repositories
   authImageRepository: 'authentication-service'
