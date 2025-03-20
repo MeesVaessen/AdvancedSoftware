@@ -11,7 +11,7 @@ done
 echo "Database is ready!"
 
 # Run Laravel commands after MySQL is up
-php artisan migrate:fresh --seed
+php artisan migrate:fresh --seed --force
 php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
