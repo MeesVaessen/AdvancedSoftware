@@ -6,7 +6,7 @@ resources:
 
 variables:
   # Container registry service connection
-  dockerRegistryServiceConnection: '7147f71d-fe16-4654-b741-fb238a729eca'
+  dockerRegistryServiceConnection:
   containerRegistry: 'advancedsoftware.azurecr.io'
 
   # Repositories
