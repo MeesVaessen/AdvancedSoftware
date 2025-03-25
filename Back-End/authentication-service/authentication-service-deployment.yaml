@@ -33,8 +33,7 @@ spec:
             - name: DB_PASSWORD
               value: "Advanced_Software1"
       imagePullSecrets:
-        - name: acr-secret #This can be removed if you have the managed identity working.
-
+        - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
@@ -47,4 +46,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8000
-  type: LoadBalancer
+  type: ClusterIP

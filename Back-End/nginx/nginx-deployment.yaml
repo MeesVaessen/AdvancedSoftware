@@ -37,4 +37,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: LoadBalancer
+  type: LoadBalancer  # Only this should be publicly accessible
