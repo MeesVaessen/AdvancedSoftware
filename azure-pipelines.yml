@@ -40,7 +40,7 @@ stages:
       displayName: Build and push authentication-service
       inputs:
         command: buildAndPush
-        repository: $(containerRegistry)/$(authImageRepository)
+        repository: $(authImageRepository)
         dockerfile: $(authDockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
@@ -51,7 +51,7 @@ stages:
       displayName: Build and push post-service
       inputs:
         command: buildAndPush
-        repository: $(containerRegistry)/$(postImageRepository)
+        repository: $(postImageRepository)
         dockerfile: $(postDockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
