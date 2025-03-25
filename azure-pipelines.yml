@@ -92,3 +92,13 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           kubectl apply -f $(Build.SourcesDirectory)/Back-End/post-service/post-service-deployment.yaml
+
+    - task: AzureCLI@2
+      displayName: 'Deploy NGINX Gateway to AKS'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          kubectl apply -f $(Build.SourcesDirectory)/nginx/nginx-deployment.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/nginx/nginx-gateway-service.yaml
