@@ -32,6 +32,10 @@ spec:
               value: "mees"
             - name: DB_PASSWORD
               value: "Advanced_Software1"
+            - name: JWT_SECRET
+              value: "p7Q5vf48CsX6KQvHe8j5D4EpHXmO0jTuNdYBkwYFmdvr9fFjsoki5RbUdXItaFi3"
+      imagePullSecrets:
+        - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
