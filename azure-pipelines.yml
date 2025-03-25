@@ -100,5 +100,5 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          kubectl apply -f $(Build.SourcesDirectory)/nginx/nginx-deployment.yaml
-          kubectl apply -f $(Build.SourcesDirectory)/nginx/nginx-gateway-service.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/nginx/nginx-deployment.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/nginx/nginx-gateway-service.yaml
