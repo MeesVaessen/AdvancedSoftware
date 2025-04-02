@@ -13,16 +13,15 @@ class JwtMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $token = $request->bearerToken(); // Get JWT token from the Authorization header
+        $token = $request->bearerToken();
 
         if (!$token) {
             return response()->json(['error' => 'Token not provided'], 401);
         }
 
         try {
-            $secretKey = env('JWT_SECRET'); // Use the secret key from .env
-            $decoded = JWT::decode($token, new Key($secretKey, 'HS256')); // Decode token
-            // Optionally, attach decoded user data to the request
+            $secretKey = env('JWT_SECRET');
+            $decoded = JWT::decode($token, new Key($secretKey, 'HS256'));
             $request->attributes->set('jwt_payload', (array) $decoded);
         } catch (Exception $e) {
             return response()->json(['error' => 'Invalid token', 'message' => $e->getMessage()], 401);

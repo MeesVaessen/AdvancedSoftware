@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Mews\Purifier\Casts\CleanHtml;
 
 /**
  * @method static create(array $data)
@@ -19,5 +20,10 @@ class Post extends Model
         'likes',
         'dislikes',
         'created_by'
+    ];
+
+    protected $casts = [
+        'title'            => CleanHtml::class,
+        'body'             => CleanHtml::class,
     ];
 }

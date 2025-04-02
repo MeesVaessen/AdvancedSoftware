@@ -244,6 +244,8 @@
       <excludeFolder url="file://$MODULE_DIR$/post-service/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/post-service/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/post-service/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/authentication-service/vendor/ezyang/htmlpurifier" />
+      <excludeFolder url="file://$MODULE_DIR$/authentication-service/vendor/mews/purifier" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
