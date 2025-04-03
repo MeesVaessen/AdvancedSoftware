@@ -65,7 +65,6 @@ stages:
         inlineScript: |
           az aks get-credentials --resource-group $(aksResourceGroup) --name $(aksClusterName) --overwrite-existing
 
-    # Commented out NGINX-related steps
     # - task: AzureCLI@2
     #   displayName: 'Create NGINX ConfigMap'
     #   inputs:
@@ -92,8 +91,25 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           kubectl apply -f $(Build.SourcesDirectory)/Back-End/post-service/post-service-deployment.yaml
+  
+    - task: AzureCLI@2
+      displayName: 'Deploy authentication-service HPA'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/authentication-service/authentication-service-hpa.yaml
 
-    # Commented out NGINX Gateway-related steps
+    - task: AzureCLI@2
+      displayName: 'Deploy post-service HPA'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/post-service/post-service-hpa.yaml  
+
     # - task: AzureCLI@2
     #   displayName: 'Deploy NGINX Gateway to AKS'
     #   inputs:
