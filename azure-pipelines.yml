@@ -47,25 +47,6 @@ stages:
         tags: |
           latest
 
-# Add Traefik Install stage
-- stage: Install_Traefik
-  displayName: Install Traefik
-  jobs:
-  - job: Install
-    displayName: Install Traefik on AKS
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: AzureCLI@2
-      displayName: 'Install Traefik via Helm (Only if not installed)'
-      inputs:
-        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-            chmod +x $(Build.SourcesDirectory)/Back-End/treafik/install-traefik.sh
-            $(Build.SourcesDirectory)/Back-End/treafik/install-traefik.sh
-
 # Deploy stage
 - stage: Deploy
   displayName: Deploy to AKS
