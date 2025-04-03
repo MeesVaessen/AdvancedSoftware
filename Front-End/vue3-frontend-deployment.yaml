@@ -18,7 +18,7 @@ spec:
         - name: frontend
           image: advancedsoftware.azurecr.io/frontend:latest
           ports:
-            - containerPort: 80
+            - containerPort: 8080  # Ensure it matches the port exposed in the Dockerfile
 ---
 apiVersion: v1
 kind: Service
@@ -29,6 +29,6 @@ spec:
     app: frontend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 80          # External port for accessing the service
+      targetPort: 8080   # Internal port your container is serving on
   type: LoadBalancer
