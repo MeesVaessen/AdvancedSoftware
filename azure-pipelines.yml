@@ -47,56 +47,87 @@ stages:
         tags: |
           latest
 
-# - stage: Deploy
-#   displayName: Deploy to AKS
-#   jobs:
-#   - job: Deploy
-#     displayName: Deploy to AKS
-#     pool:
-#       name: default
-#     steps:
-#     - task: AzureCLI@2
-#       displayName: 'Set up kubectl'
-#       inputs:
-#         azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
-#         scriptType: bash
-#         scriptLocation: inlineScript
-#         inlineScript: |
-#           az aks get-credentials --resource-group $(aksResourceGroup) --name $(aksClusterName) --overwrite-existing
-          
-#     - task: AzureCLI@2
-#       displayName: 'Create NGINX ConfigMap'
-#       inputs:
-#         azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
-#         scriptType: bash
-#         scriptLocation: inlineScript
-#         inlineScript: |
-#           kubectl apply -f $(Build.SourcesDirectory)/Back-End/nginx/nginx-configmap.yaml
+# Add Traefik Install stage
+- stage: Install_Traefik
+  displayName: Install Traefik
+  jobs:
+  - job: Install
+    displayName: Install Traefik on AKS
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Install Traefik via Helm (Only if not installed)'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+            chmod +x $(Build.SourcesDirectory)/install-traefik.sh
+            $(Build.SourcesDirectory)/install-traefik.sh
 
-#     - task: AzureCLI@2
-#       displayName: 'Deploy authentication-service to AKS'
-#       inputs:
-#         azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
-#         scriptType: bash
-#         scriptLocation: inlineScript
-#         inlineScript: |
-#           kubectl apply -f $(Build.SourcesDirectory)/Back-End/authentication-service/authentication-service-deployment.yaml
-          
-#     - task: AzureCLI@2
-#       displayName: 'Deploy post-service to AKS'
-#       inputs:
-#         azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
-#         scriptType: bash
-#         scriptLocation: inlineScript
-#         inlineScript: |
-#           kubectl apply -f $(Build.SourcesDirectory)/Back-End/post-service/post-service-deployment.yaml
+# Deploy stage
+- stage: Deploy
+  displayName: Deploy to AKS
+  jobs:
+  - job: Deploy
+    displayName: Deploy to AKS
+    pool:
+      name: default
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Set up kubectl'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az aks get-credentials --resource-group $(aksResourceGroup) --name $(aksClusterName) --overwrite-existing
 
-#     - task: AzureCLI@2
-#       displayName: 'Deploy NGINX Gateway to AKS'
-#       inputs:
-#         azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
-#         scriptType: bash
-#         scriptLocation: inlineScript
-#         inlineScript: |
-#           kubectl apply -f $(Build.SourcesDirectory)/Back-End/nginx/nginx-deployment.yaml
-#           kubectl apply -f $(Build.SourcesDirectory)/Back-End/nginx/nginx-gateway-service.yaml
+    # Commented out NGINX-related steps
+    # - task: AzureCLI@2
+    #   displayName: 'Create NGINX ConfigMap'
+    #   inputs:
+    #     azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+    #     scriptType: bash
+    #     scriptLocation: inlineScript
+    #     inlineScript: |
+    #       kubectl apply -f $(Build.SourcesDirectory)/Back-End/nginx/nginx-configmap.yaml
+
+    - task: AzureCLI@2
+      displayName: 'Deploy authentication-service to AKS'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/authentication-service/authentication-service-deployment.yaml
+          
+    - task: AzureCLI@2
+      displayName: 'Deploy post-service to AKS'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/post-service/post-service-deployment.yaml
+
+    # Commented out NGINX Gateway-related steps
+    # - task: AzureCLI@2
+    #   displayName: 'Deploy NGINX Gateway to AKS'
+    #   inputs:
+    #     azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+    #     scriptType: bash
+    #     scriptLocation: inlineScript
+    #     inlineScript: |
+    #       kubectl apply -f $(Build.SourcesDirectory)/Back-End/nginx/nginx-deployment.yaml
+    #       kubectl apply -f $(Build.SourcesDirectory)/Back-End/nginx/nginx-gateway-service.yaml
+
+    - task: AzureCLI@2
+      displayName: 'Deploy Traefik IngressRoutes'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/traefik/traefik-ingress.yaml
