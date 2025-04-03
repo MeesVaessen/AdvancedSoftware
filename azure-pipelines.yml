@@ -128,3 +128,4 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           kubectl apply -f $(Build.SourcesDirectory)/Back-End/treafik/traefik-ingress.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/treafik/traefik-service.yaml
