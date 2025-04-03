@@ -63,8 +63,8 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-            chmod +x $(Build.SourcesDirectory)/install-traefik.sh
-            $(Build.SourcesDirectory)/install-traefik.sh
+            chmod +x $(Build.SourcesDirectory)/Back-End/treafik/install-traefik.sh
+            $(Build.SourcesDirectory)/Back-End/treafik/install-traefik.sh
 
 # Deploy stage
 - stage: Deploy
