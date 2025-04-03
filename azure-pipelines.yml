@@ -47,6 +47,16 @@ stages:
         tags: |
           latest
 
+    - task: Docker@2
+      displayName: Build and push vue3-frontend
+      inputs:
+        command: buildAndPush
+        repository: 'vue3-frontend'
+        dockerfile: $(Build.SourcesDirectory)/Front-End/Dockerfile 
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          latest
+
 # Deploy stage
 - stage: Deploy
   displayName: Deploy to AKS
@@ -128,3 +138,14 @@ stages:
         scriptLocation: inlineScript
         inlineScript: |
           kubectl apply -f $(Build.SourcesDirectory)/Back-End/treafik/traefik-ingress.yaml
+          kubectl apply -f $(Build.SourcesDirectory)/Back-End/treafik/traefik-service.yaml
+
+
+    - task: AzureCLI@2
+      displayName: 'Deploy vue3-frontend to AKS'
+      inputs:
+        azureSubscription: 'Azure for Students(50ccea06-45f9-4d03-928c-45d883ef83ff)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          kubectl apply -f $(Build.SourcesDirectory)/Front-End/vue3-frontend-deployment.yaml
