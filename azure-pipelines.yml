@@ -5,12 +5,11 @@ resources:
 - repo: self
 
 variables:
-  # Using GitHub Secrets in the pipeline
-  dockerRegistryServiceConnection: $(DOCKER_REGISTRY_SERVICE_CONNECTION)  # GitHub Secret for Docker Registry
-  aksClusterName: $(AKS_CLUSTER_NAME)  # GitHub Secret for AKS Cluster Name
-  aksResourceGroup: $(AKS_RESOURCE_GROUP)  # GitHub Secret for AKS Resource Group
+  dockerRegistryServiceConnection: $(DOCKER_REGISTRY_SERVICE_CONNECTION)
+  aksClusterName: $(AKS_CLUSTER_NAME)
+  aksResourceGroup: $(AKS_RESOURCE_GROUP)
   tag: '$(Build.BuildId)'
-  vmImageName: $(VM_IMAGE_NAME)  # GitHub Secret for VM Image Name
+  vmImageName: $(VM_IMAGE_NAME)
 
 stages:
 - stage: Build
@@ -63,7 +62,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Set up kubectl'
       inputs:
-        azureSubscription: $(AZURE_SUBSCRIPTION)  # GitHub Secret for Azure Subscription
+        azureSubscription: $(AZURE_SUBSCRIPTION)
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
@@ -72,7 +71,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy authentication-service to AKS'
       inputs:
-        azureSubscription: $(AZURE_SUBSCRIPTION)  # GitHub Secret for Azure Subscription
+        azureSubscription: $(AZURE_SUBSCRIPTION)
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
@@ -81,7 +80,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy post-service to AKS'
       inputs:
-        azureSubscription: $(AZURE_SUBSCRIPTION)  # GitHub Secret for Azure Subscription
+        azureSubscription: $(AZURE_SUBSCRIPTION)
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
@@ -90,7 +89,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy authentication-service HPA'
       inputs:
-        azureSubscription: $(AZURE_SUBSCRIPTION)  # GitHub Secret for Azure Subscription
+        azureSubscription: $(AZURE_SUBSCRIPTION)
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
@@ -99,7 +98,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy post-service HPA'
       inputs:
-        azureSubscription: $(AZURE_SUBSCRIPTION)  # GitHub Secret for Azure Subscription
+        azureSubscription: $(AZURE_SUBSCRIPTION)
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
@@ -108,7 +107,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy Traefik IngressRoutes'
       inputs:
-        azureSubscription: $(AZURE_SUBSCRIPTION)  # GitHub Secret for Azure Subscription
+        azureSubscription: $(AZURE_SUBSCRIPTION)
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
@@ -118,7 +117,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy vue3-frontend to AKS'
       inputs:
-        azureSubscription: $(AZURE_SUBSCRIPTION)  # GitHub Secret for Azure Subscription
+        azureSubscription: $(AZURE_SUBSCRIPTION)
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
