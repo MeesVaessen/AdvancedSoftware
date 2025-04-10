@@ -34,6 +34,13 @@ spec:
               value: "Advanced_Software1"
             - name: JWT_SECRET
               value: "p7Q5vf48CsX6KQvHe8j5D4EpHXmO0jTuNdYBkwYFmdvr9fFjsoki5RbUdXItaFi3"
+          resources:
+            requests:
+              cpu: "300m"  # 0.3 CPU cores (moderate load)
+              memory: "512Mi"  # 512 MB of memory
+            limits:
+              cpu: "1"  # 1 CPU core (maximum CPU)
+              memory: "1Gi"  # 1 GiB of memory (upper limit)
       imagePullSecrets:
         - name: acr-secret
 ---
