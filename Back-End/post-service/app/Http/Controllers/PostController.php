@@ -20,6 +20,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'body' => 'required|string',
         ]);
+
         $jwtPayload = $request->attributes->get('jwt_payload');
         $data['created_by'] = $jwtPayload['sub'];
         return response()->json($this->postService->create($data));
@@ -60,6 +61,7 @@ class PostController extends Controller
             "userId" => $jwtPayload['sub'],
             "is_like"=> true
         ];
+        return response()->json([$this->postService->like($data)]);
     }
 
     public function dislikePost(Request $request, $id): JsonResponse

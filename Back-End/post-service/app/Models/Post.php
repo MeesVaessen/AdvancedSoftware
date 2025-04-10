@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ShardManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -13,6 +14,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Post extends Model
 {
+    protected $connection;
+
+    public function useShard(string $connection)
+    {
+        $this->setConnection($connection);
+        return $this;
+    }
+
     protected $fillable = [
         'id',
         'title',

@@ -2,29 +2,45 @@
 
 namespace App\Repositories;
 
-use App\Models\Like;
 use App\Models\Post;
 use App\Repositories\Interfaces\postRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use App\Services\ShardManager;
 use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Models\Like;
 
 class postRepository implements postRepositoryInterface
 {
-    public function store(array $data)
+    protected ShardManager $shardManager;
+
+    public function __construct(ShardManager $shardManager)
     {
-        return Post::create([
-            'id' => Str::uuid(),
-            'title' => $data['title'],
-            'body' => $data['body'],
-            'created_by' => $data['created_by'],
-        ]);
+        $this->shardManager = $shardManager;
     }
 
-    public function show($id)
+    protected function getShardConnection(string $userUuid): string
     {
-        $post = Post::where('id', $id)->firstOrFail();
+        return $this->shardManager->getConnectionName($userUuid);
+    }
+
+    public function store(array $data)
+    {
+        $connection = $this->getShardConnection($data['created_by']);
+        return (new Post())
+            ->useShard($connection)
+            ->create([
+                'id' => Str::uuid(),
+                'title' => $data['title'],
+                'body' => $data['body'],
+                'created_by' => $data['created_by'],
+            ]);
+    }
+
+    public function show($id, string $userUuid)
+    {
+        $post = $this->usePostShard($userUuid)->findOrFail($id);
         $this->getPostLikes($post);
         return $post;
     }
@@ -48,7 +64,6 @@ class postRepository implements postRepositoryInterface
             $post->update($data);
             return $post;
         }
-
         throw new UnauthorizedException();
     }
 
@@ -78,7 +93,7 @@ class postRepository implements postRepositoryInterface
                 'user_id' => $data['userId'],
                 'post_id' => $data['postId'],
                 'is_like' => true
-        ]);
+            ]);
         }
 
         return [
