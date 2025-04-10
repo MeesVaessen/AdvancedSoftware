@@ -9,6 +9,9 @@ interface postServiceInterface
     public function get($id);
     public function update($id, array $data);
     public function delete($id);
+    public function like($data);
+    public function dislike($data);
+
 
 
 }

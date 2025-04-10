@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/authentication-service/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/authentication-service/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
       <sourceFolder url="file://$MODULE_DIR$/authentication-service/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/authentication-service/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/authentication-service/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/post-service/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/post-service/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />

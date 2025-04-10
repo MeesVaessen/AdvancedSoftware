@@ -36,4 +36,15 @@ class postService implements postServiceInterface
     {
         return $this->postRepository->delete($id);
     }
+
+    public function like($data)
+    {
+        return $this->postRepository->likePost($data);
+
+    }
+
+    public function dislike($data)
+    {
+        return $this->postRepository->dislikePost($data);
+    }
 }

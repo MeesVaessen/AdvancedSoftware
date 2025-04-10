@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static create(array $data)
@@ -20,4 +21,12 @@ class Post extends Model
         'dislikes',
         'created_by'
     ];
+
+    protected $keyType = 'string'; // Ensure that the primary key is treated as a string (UUID)
+    public $incrementing = false; // Disable auto-increment
+
+    public function Likes() : hasMany
+    {
+        return $this->hasMany(Like::class);
+    }
 }

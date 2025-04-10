@@ -23,8 +23,8 @@ const router = createRouter({
       component: RegisterView,
     },
     {
-      path: '/posts',
-      name: 'posts',
+      path: '/post/:id',
+      name: 'post',
       component: PostView,
     },
   ],

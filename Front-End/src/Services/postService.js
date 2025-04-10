@@ -14,7 +14,7 @@ export const createPost = async (postData) => {
 
 export const getPost = async (postData) => {
   try {
-    const response = await apiService.get('/posts/' + postData.id);
+    const response = await apiService.get('/posts/getPost/' + postData);
     console.log(response);
     return response;
   } catch (error) {
@@ -33,3 +33,27 @@ export const getPosts = async (paginate) => {
     throw error;
   }
 };
+
+export const likePost = async (postId) => {
+  try {
+    const response = await apiService.get(`/posts/${postId}/like`);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error('Post like failed:', error);
+    throw error;
+  }
+
+}
+
+export const dislikePost = async (postId) => {
+  try {
+    const response = await apiService.get(`/posts/${postId}/dislike`);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error('Post like failed:', error);
+    throw error;
+  }
+
+}

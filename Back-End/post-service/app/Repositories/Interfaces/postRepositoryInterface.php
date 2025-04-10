@@ -9,6 +9,10 @@ interface postRepositoryInterface
     public function show($id);
     public function showAll($paginate);
     public function update(array $data, $id);
+
+    public function likePost($data);
+    public function dislikePost($data);
+
     public function delete($id);
 
 
