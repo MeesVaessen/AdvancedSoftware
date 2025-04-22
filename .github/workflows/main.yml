@@ -2,13 +2,10 @@ name: Laravel Microservices CI
 
 on:
   push:
-    paths:
-      - 'post-service/**'
-      - 'authentication-service/**'
+    branches: ["development", "kubernetes-test" ]
   pull_request:
-    paths:
-      - 'post-service/**'
-      - 'authentication-service/**'
+    branches: ["development" ]
+  workflow_dispatch:
 
 jobs:
   test-authentication-service:
