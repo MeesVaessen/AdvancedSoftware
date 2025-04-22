@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Services\Interfaces\UserServiceInterface;
