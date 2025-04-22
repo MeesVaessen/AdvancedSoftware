@@ -31,7 +31,7 @@ jobs:
         run: ./vendor/bin/pint --test
 
       - name: Run PHPStan (static analysis)
-        run: ./vendor/bin/phpstan analyse
+        run: ./vendor/bin/phpstan analyse app
 
       - name: Run Tests
         env:
@@ -62,7 +62,7 @@ jobs:
         run: ./vendor/bin/pint --test
 
       - name: Run PHPStan (static analysis)
-        run: ./vendor/bin/phpstan analyse
+        run: ./vendor/bin/phpstan analyse app
 
       - name: Run Tests
         env:
