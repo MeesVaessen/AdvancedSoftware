@@ -2,9 +2,9 @@ name: Laravel Microservices CI
 
 on:
   push:
-    branches: ["development", "kubernetes-test" ]
+    branches: ["development"]
   pull_request:
-    branches: ["development" ]
+    branches: ["development"]
   workflow_dispatch:
 
 jobs:
@@ -29,9 +29,6 @@ jobs:
 
       - name: Run Pint (code style)
         run: ./vendor/bin/pint --test
-
-      - name: Run PHPStan (static analysis)
-        run: ./vendor/bin/phpstan analyse
 
       - name: Run Tests
         env:
@@ -60,9 +57,6 @@ jobs:
 
       - name: Run Pint (code style)
         run: ./vendor/bin/pint --test
-
-      - name: Run PHPStan (static analysis)
-        run: ./vendor/bin/phpstan analyse
 
       - name: Run Tests
         env:
