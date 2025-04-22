@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: authentication-service
+        working-directory: Back-End/authentication-service
     steps:
       - uses: actions/checkout@v4
 
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: post-service
+        working-directory: Back-End/post-service
     steps:
       - uses: actions/checkout@v4
 
