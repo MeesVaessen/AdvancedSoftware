@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\ShardManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -19,6 +18,7 @@ class Post extends Model
     public function useShard(string $connection)
     {
         $this->setConnection($connection);
+
         return $this;
     }
 
@@ -28,13 +28,14 @@ class Post extends Model
         'body',
         'likes',
         'dislikes',
-        'created_by'
+        'created_by',
     ];
 
     protected $keyType = 'string'; // Ensure that the primary key is treated as a string (UUID)
+
     public $incrementing = false; // Disable auto-increment
 
-    public function Likes() : hasMany
+    public function Likes(): hasMany
     {
         return $this->hasMany(Like::class);
     }

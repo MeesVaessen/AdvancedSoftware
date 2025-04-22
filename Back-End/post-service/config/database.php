@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'central'),
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
             ]) : [],
         ],
 
-        'shard1' => [
+        'shard_1' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
             'host' => env('DB_SHARD1_HOST', '127.0.0.1'),
@@ -70,51 +70,13 @@ return [
             ]) : [],
         ],
 
-        'shard2' => [
+        'shard_2' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
             'host' => env('DB_SHARD2_HOST', '127.0.0.1'),
             'database' => env('DB_SHARD2_DATABASE', 'shard1_db'),
             'username' => env('DB_SHARD2_USERNAME', 'root'),
             'password' => env('DB_SHARD2_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
-        ],
-
-        'shard3' => [
-            'driver' => 'mysql',
-            'url' => env('DB_URL'),
-            'host' => env('DB_SHARD3_HOST', '127.0.0.1'),
-            'database' => env('DB_SHARD3_DATABASE', 'shard1_db'),
-            'username' => env('DB_SHARD3_USERNAME', 'root'),
-            'password' => env('DB_SHARD3_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
-        ],
-
-        'shard4' => [
-            'driver' => 'mysql',
-            'url' => env('DB_URL'),
-            'host' => env('DB_SHARD4_HOST', '127.0.0.1'),
-            'database' => env('DB_SHARD4_DATABASE', 'shard1_db'),
-            'username' => env('DB_SHARD4_USERNAME', 'root'),
-            'password' => env('DB_SHARD4_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => env('DB_CHARSET', 'utf8mb4'),
             'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),

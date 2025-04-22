@@ -8,11 +8,7 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-
-    public function __construct(protected PostServiceInterface $postService)
-    {
-    }
-
+    public function __construct(protected PostServiceInterface $postService) {}
 
     public function createPost(Request $request): JsonResponse
     {
@@ -23,10 +19,11 @@ class PostController extends Controller
 
         $jwtPayload = $request->attributes->get('jwt_payload');
         $data['created_by'] = $jwtPayload['sub'];
+
         return response()->json($this->postService->create($data));
     }
 
-    public function getPosts($paginate=null): JsonResponse
+    public function getPosts($paginate = null): JsonResponse
     {
         return response()->json($this->postService->getAll($paginate));
     }
@@ -53,14 +50,15 @@ class PostController extends Controller
         return response()->json(['success' => $this->postService->delete($id)]);
     }
 
-    public function likePost(Request $request,$id): JsonResponse
+    public function likePost(Request $request, $id): JsonResponse
     {
         $jwtPayload = $request->attributes->get('jwt_payload');
         $data = [
-            "postId" => $id,
-            "userId" => $jwtPayload['sub'],
-            "is_like"=> true
+            'postId' => $id,
+            'userId' => $jwtPayload['sub'],
+            'is_like' => true,
         ];
+
         return response()->json([$this->postService->like($data)]);
     }
 
@@ -68,13 +66,11 @@ class PostController extends Controller
     {
         $jwtPayload = $request->attributes->get('jwt_payload');
         $data = [
-                "postId" => $id,
-                "userId" => $jwtPayload['sub'],
-                "is_like"=> false
-                ];
+            'postId' => $id,
+            'userId' => $jwtPayload['sub'],
+            'is_like' => false,
+        ];
+
         return response()->json([$this->postService->dislike($data)]);
     }
-
-
 }
-

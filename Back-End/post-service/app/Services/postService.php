@@ -7,19 +7,16 @@ use App\Services\Interfaces\postServiceInterface;
 
 class postService implements postServiceInterface
 {
-    public function __construct(protected postRepositoryInterface $postRepository)
-    {
-
-    }
+    public function __construct(protected postRepositoryInterface $postRepository) {}
 
     public function create(array $data)
     {
-      return $this->postRepository->store($data);
+        return $this->postRepository->store($data);
     }
 
     public function getAll($paginate)
     {
-       return $this->postRepository->showAll($paginate);
+        return $this->postRepository->showAll($paginate);
     }
 
     public function get($id)

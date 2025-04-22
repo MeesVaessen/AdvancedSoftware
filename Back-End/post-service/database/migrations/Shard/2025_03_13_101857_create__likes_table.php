@@ -18,7 +18,6 @@ return new class extends Migration
             $table->boolean('is_like')->default(true);
             $table->timestamps();
 
-
             $table->primary(['user_id', 'post_id']);
         });
 
