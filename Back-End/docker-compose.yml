@@ -8,32 +8,85 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - authentication-service
+#      - authentication-service
       - post-service
     networks:
       - laravel_network
 
-  authentication-service:
-    build:
-      context: ./authentication-service
-      dockerfile: Dockerfile
-    container_name: AuthenticationService
+#  authentication-service:
+#    build:
+#      context: ./authentication-service
+#      dockerfile: Dockerfile
+#    container_name: AuthenticationService
+#    restart: unless-stopped
+#    working_dir: /var/www/html
+#    volumes:
+#      - ./authentication-service:/var/www/html
+#    environment:
+#      APP_ENV: local
+#      DB_CONNECTION: mysql
+#      DB_HOST: advanced-software.mysql.database.azure.com
+#      DB_PORT: 3306
+#      DB_DATABASE: authentication_db
+#      DB_USERNAME: mees
+#      DB_PASSWORD: Advanced_Software1
+#    networks:
+#      - laravel_network
+#    ports:
+#      - "8001:8000"
+
+
+
+
+  postDB-central:
+    image: mysql:8.0
+    container_name: postDB_central
     restart: unless-stopped
-    working_dir: /var/www/html
-    volumes:
-      - ./authentication-service:/var/www/html
     environment:
-      APP_ENV: local
-      DB_CONNECTION: mysql
-      DB_HOST: advanced-software.mysql.database.azure.com
-      DB_PORT: 3306
-      DB_DATABASE: authentication_db
-      DB_USERNAME: mees
-      DB_PASSWORD: Advanced_Software1
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: central_db
+      MYSQL_USER: mees
+      MYSQL_PASSWORD: Advanced_Software1
+    ports:
+      - "3307:3306"
+    volumes:
+      - post_central_db_data:/var/lib/mysql
     networks:
       - laravel_network
+
+  postDB-shard1:
+    image: mysql:8.0
+    container_name: postDB_shard1
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shard1_db
+      MYSQL_USER: mees
+      MYSQL_PASSWORD: Advanced_Software1
     ports:
-      - "8001:8000"
+      - "3308:3306"
+    volumes:
+      - post_shard1_db_data:/var/lib/mysql
+    networks:
+      - laravel_network
+
+  postDB-shard2:
+    image: mysql:8.0
+    container_name: postDB_shard2
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shard2_db
+      MYSQL_USER: mees
+      MYSQL_PASSWORD: Advanced_Software1
+    ports:
+      - "3309:3306"
+    volumes:
+      - post_shard2_db_data:/var/lib/mysql
+    networks:
+      - laravel_network
+
+
 
   post-service:
     build:
@@ -46,16 +99,37 @@ services:
       - ./post-service:/var/www/html
     environment:
       APP_ENV: local
-      DB_CONNECTION: mysql
-      DB_HOST: advanced-software.mysql.database.azure.com
+      DB_CONNECTION: central
+
+      DB_HOST: postDB-central
       DB_PORT: 3306
-      DB_DATABASE: post_db
+      DB_DATABASE: central_db
       DB_USERNAME: mees
       DB_PASSWORD: Advanced_Software1
+
+      DB_SHARD1_HOST: postDB-shard1
+      DB_SHARD1_DATABASE: shard1_db
+      DB_SHARD1_USERNAME: mees
+      DB_SHARD1_PASSWORD: Advanced_Software1
+
+      DB_SHARD2_HOST: postDB-shard2
+      DB_SHARD2_DATABASE: shard2_db
+      DB_SHARD2_USERNAME: mees
+      DB_SHARD2_PASSWORD: Advanced_Software1
+
     networks:
       - laravel_network
     ports:
       - "8002:8000"
+    depends_on:
+      - postDB-central
+      - postDB-shard1
+      - postDB-shard2
+
+volumes:
+  post_central_db_data:
+  post_shard1_db_data:
+  post_shard2_db_data:
 
 networks:
   laravel_network:

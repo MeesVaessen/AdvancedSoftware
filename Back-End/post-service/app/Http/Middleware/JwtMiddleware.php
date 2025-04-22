@@ -3,11 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Exception;
 
 class JwtMiddleware
 {
@@ -15,7 +15,7 @@ class JwtMiddleware
     {
         $token = $request->bearerToken();
 
-        if (!$token) {
+        if (! $token) {
             return response()->json(['error' => 'Token not provided'], 401);
         }
 
@@ -29,6 +29,4 @@ class JwtMiddleware
 
         return $next($request);
     }
-
-
 }

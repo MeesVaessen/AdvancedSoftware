@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 class UserRepository implements UserRepositoryInterface
 {
-
     public function create(array $attributes)
     {
         return User::create([
@@ -20,19 +19,9 @@ class UserRepository implements UserRepositoryInterface
         ]);
     }
 
-    public function update(array $attributes, $id)
-    {
+    public function update(array $attributes, $id) {}
 
-    }
+    public function delete($id) {}
 
-    public function delete($id)
-    {
-
-    }
-
-    public function find($id)
-    {
-
-    }
-
+    public function find($id) {}
 }

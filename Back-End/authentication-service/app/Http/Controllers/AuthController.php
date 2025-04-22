@@ -6,13 +6,11 @@ use App\Services\Interfaces\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+
 class AuthController extends Controller
 {
+    public function __construct(protected UserServiceInterface $userService) {}
 
-    public function __construct(protected UserServiceInterface $userService)
-    {
-
-    }
     public function register(Request $request): JsonResponse
     {
         $validatedData = $request->validate([
@@ -31,7 +29,7 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
-        if (!$token = JWTAuth::attempt($credentials)) {
+        if (! $token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -41,6 +39,7 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         JWTAuth::invalidate(JWTAuth::getToken());
+
         return response()->json(['message' => 'Successfully logged out']);
     }
 

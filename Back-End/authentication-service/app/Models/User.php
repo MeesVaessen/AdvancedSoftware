@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +14,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-
 
     /**
      * Indicates if the model's ID is auto-incrementing.
@@ -84,5 +82,6 @@ class User extends Authenticatable implements JWTSubject
             'email' => $this->email,
             'roles' => $this->roles->pluck('name')->toArray(),
             // Add any other user information you need
-        ];    }
+        ];
+    }
 }

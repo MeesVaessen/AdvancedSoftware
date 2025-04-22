@@ -6,14 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        $shards = config('sharding.connections');
-        foreach ($shards as $shard) {
-            Schema::connection($shard)->create('posts', function (Blueprint $table) {
+        $connection = Schema::getConnection()->getName();
+
+        if (! Schema::connection($connection)->hasTable('posts')) {
+            Schema::connection($connection)->create('posts', function (Blueprint $table) {
                 $table->uuid('id')->primary();
                 $table->string('title');
                 $table->text('body');
@@ -24,15 +22,9 @@ return new class extends Migration
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        $shards = config('sharding.connections');
-
-        foreach ($shards as $shard) {
-            Schema::connection($shard)->dropIfExists('posts');
-        }
+        $connection = Schema::getConnection()->getName();
+        Schema::connection($connection)->dropIfExists('posts');
     }
 };
