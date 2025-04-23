@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+
 $defaultIP = '127.0.0.1';
 
 return [
