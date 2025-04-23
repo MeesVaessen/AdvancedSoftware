@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,6 +9,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @method static create(array $array)
+ * @method static where(string $string, $id)
  */
 class User extends Authenticatable implements JWTSubject
 {
