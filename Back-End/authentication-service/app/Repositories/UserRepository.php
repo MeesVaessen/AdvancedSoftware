@@ -19,9 +19,21 @@ class UserRepository implements UserRepositoryInterface
         ]);
     }
 
-    public function update(array $attributes, $id) {}
+    public function update(array $attributes, $id): void
+    {
+        $user = User::where('id', $id)->first();
+        $user->update($attributes);
+        $user->save();
+    }
 
-    public function delete($id) {}
+    public function delete($id): void
+    {
+        $user = User::where('id', $id)->first();
+        $user->delete();
+    }
 
-    public function find($id) {}
+    public function find($id)
+    {
+        return User::where('id', $id)->first();
+    }
 }

@@ -13,15 +13,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
 # Set timezone
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
 
-# Optimize APT package manager settings
-RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
-    echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99custom && \
-    echo "Acquire::BrokenProxy true;" >> /etc/apt/apt.conf.d/99custom
+    # Optimize APT package manager settings
+    && echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
+       echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99custom && \
+       echo "Acquire::BrokenProxy true;" >> /etc/apt/apt.conf.d/99custom
 
-# Update and install system dependencies
-RUN apt-get update && apt-get upgrade -y \
+    # Update and install system dependencies
+    && apt-get update && apt-get upgrade -y \
     && apt-get install -y gnupg curl ca-certificates zip unzip git \
        supervisor sqlite3 libpng-dev dnsutils nano software-properties-common \
        librsvg2-bin fswatch ffmpeg \
@@ -47,13 +47,13 @@ RUN apt-get update && apt-get upgrade -y \
     && apt-get update \
     && apt-get install -y yarn \
     && apt-get install -y $MYSQL_CLIENT \
-    && apt-get install -y postgresql-client-$POSTGRES_VERSION \
+    && apt-get install -y postgresql-client-"$POSTGRES_VERSION" \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Allow PHP to bind to privileged ports if necessary
-RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.4
+    # Allow PHP to bind to privileged ports if necessary
+    && setcap "cap_net_bind_service=+ep" /usr/bin/php8.4
 
 # Copy project files into the container
 COPY . /var/www/html
@@ -61,10 +61,12 @@ COPY . /var/www/html
 # Set correct permissions for Laravel storage and bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
+    # Install Laravel dependencies
+    && composer install --no-dev --optimize-autoloader \
+    && apt-get update  \
+    && apt-get install -y netcat-openbsd  \
+    && apt-get clean
 
-RUN apt-get update && apt-get install -y netcat-openbsd
 
 # Expose port 8000 for Laravel
 EXPOSE 8000

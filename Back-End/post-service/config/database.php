@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Str;
 
+$defaultIP = '127.0.0.1';
+
 return [
 
     /*
@@ -17,7 +19,6 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'central'),
-
     /*
     |--------------------------------------------------------------------------
     | Database Connections
@@ -34,7 +35,7 @@ return [
         'central' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', $defaultIP),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'root'),
@@ -54,7 +55,7 @@ return [
         'shard_1' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
-            'host' => env('DB_SHARD1_HOST', '127.0.0.1'),
+            'host' => env('DB_SHARD1_HOST', $defaultIP),
             'database' => env('DB_SHARD1_DATABASE', 'shard1_db'),
             'username' => env('DB_SHARD1_USERNAME', 'root'),
             'password' => env('DB_SHARD1_PASSWORD', ''),
@@ -73,7 +74,7 @@ return [
         'shard_2' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
-            'host' => env('DB_SHARD2_HOST', '127.0.0.1'),
+            'host' => env('DB_SHARD2_HOST', $defaultIP),
             'database' => env('DB_SHARD2_DATABASE', 'shard1_db'),
             'username' => env('DB_SHARD2_USERNAME', 'root'),
             'password' => env('DB_SHARD2_PASSWORD', ''),
@@ -130,7 +131,7 @@ return [
 
         'default' => [
             'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'host' => env('REDIS_HOST', $defaultIP),
             'username' => env('REDIS_USERNAME'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
@@ -139,7 +140,7 @@ return [
 
         'cache' => [
             'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'host' => env('REDIS_HOST', $defaultIP),
             'username' => env('REDIS_USERNAME'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
