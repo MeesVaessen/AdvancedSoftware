@@ -3,7 +3,6 @@
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::prefix('posts')->group(function () {
     Route::post('/create', [PostController::class, 'createPost']);
     Route::post('/update', [PostController::class, 'updatePost']);
