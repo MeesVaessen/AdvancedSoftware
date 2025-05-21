@@ -12,9 +12,7 @@ interface postRepositoryInterface
 
     public function update(array $data, $id);
 
-    public function likePost($data);
-
-    public function dislikePost($data);
+    public function reactToPost(array $data, bool $isLike);
 
     public function delete($id);
 }

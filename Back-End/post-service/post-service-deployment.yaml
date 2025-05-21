@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: post-service
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: post-service
@@ -14,35 +14,69 @@ spec:
     spec:
       containers:
         - name: post-service
-          image: advancedsoftware.azurecr.io/post-service:latest
+          image: post-service:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /api/posts/health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
           env:
+            - name: APP_KEY
+              value: "base64:w/9mafIXH84ZvVtrNDSlp0i3JvQZBaizojG8T4M5KBg="
             - name: APP_ENV
-              value: "local"
+              value: "production"
+            - name: APP_DEBUG
+              value: "true"
             - name: DB_CONNECTION
-              value: "mysql"
+              value: "central"
             - name: DB_HOST
-              value: "advanced-software.mysql.database.azure.com"
+              value: "central-db"
             - name: DB_PORT
               value: "3306"
             - name: DB_DATABASE
-              value: "post_db"
+              value: "central_db"
             - name: DB_USERNAME
               value: "mees"
             - name: DB_PASSWORD
               value: "Advanced_Software1"
+            - name: DB_SHARD1_HOST
+              value: "shard1-db"
+            - name: DB_SHARD1_DATABASE
+              value: "shard1_db"
+            - name: DB_SHARD1_USERNAME
+              value: "mees"
+            - name: DB_SHARD1_PASSWORD
+              value: "Advanced_Software1"
+            - name: DB_SHARD2_HOST
+              value: "shard2-db"
+            - name: DB_SHARD2_DATABASE
+              value: "shard2_db"
+            - name: DB_SHARD2_USERNAME
+              value: "mees"
+            - name: DB_SHARD2_PASSWORD
+              value: "Advanced_Software1"
             - name: JWT_SECRET
               value: "p7Q5vf48CsX6KQvHe8j5D4EpHXmO0jTuNdYBkwYFmdvr9fFjsoki5RbUdXItaFi3"
+            - name: REDIS_HOST
+              value: "my-redis-master"
+            - name: REDIS_PASSWORD
+              value: "null"
+            - name: REDIS_PORT
+              value: "6379"
           resources:
             requests:
-              cpu: "300m"  # 0.3 CPU cores (moderate load)
-              memory: "512Mi"  # 512 MB of memory
+              cpu: "1.5"
+              memory: "3Gi"
             limits:
-              cpu: "1"  # 1 CPU core (maximum CPU)
-              memory: "1Gi"  # 1 GiB of memory (upper limit)
-      imagePullSecrets:
-        - name: acr-secret
+              cpu: "3"
+              memory: "5Gi"
+
 ---
 apiVersion: v1
 kind: Service

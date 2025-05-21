@@ -1,0 +1,143 @@
+# Central Database (central-db)
+apiVersion: v1
+kind: Service
+metadata:
+  name: central-db
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: central-db
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: central-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: central-db
+  template:
+    metadata:
+      labels:
+        app: central-db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "Advanced_Software1"
+            - name: MYSQL_DATABASE
+              value: "central_db"
+            - name: MYSQL_USER
+              value: "mees"
+            - name: MYSQL_PASSWORD
+              value: "Advanced_Software1"
+          ports:
+            - containerPort: 3306
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+---
+# Shard 1 Database (shard1-db)
+apiVersion: v1
+kind: Service
+metadata:
+  name: shard1-db
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: shard1-db
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shard1-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shard1-db
+  template:
+    metadata:
+      labels:
+        app: shard1-db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "Advanced_Software1"
+            - name: MYSQL_DATABASE
+              value: "shard1_db"
+            - name: MYSQL_USER
+              value: "mees"
+            - name: MYSQL_PASSWORD
+              value: "Advanced_Software1"
+          ports:
+            - containerPort: 3306
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+---
+# Shard 2 Database (shard2-db)
+apiVersion: v1
+kind: Service
+metadata:
+  name: shard2-db
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: shard2-db
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shard2-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shard2-db
+  template:
+    metadata:
+      labels:
+        app: shard2-db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "Advanced_Software1"
+            - name: MYSQL_DATABASE
+              value: "shard2_db"
+            - name: MYSQL_USER
+              value: "mees"
+            - name: MYSQL_PASSWORD
+              value: "Advanced_Software1"
+          ports:
+            - containerPort: 3306
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"

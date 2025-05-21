@@ -13,6 +13,10 @@ class JwtMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->is('api/posts/health')) {
+            return $next($request);
+        }
+
         $token = $request->bearerToken();
 
         if (! $token) {

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\Interfaces\postLookupRepositoryInterface;
 use App\Repositories\Interfaces\postRepositoryInterface;
+use App\Repositories\postLookupRepository;
 use App\Repositories\postRepository;
 use App\Services\Interfaces\postServiceInterface;
 use App\Services\postService;
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(postRepositoryInterface::class, postRepository::class);
         $this->app->bind(postServiceInterface::class, postService::class);
+        $this->app->bind(postLookupRepositoryInterface::class, postLookupRepository::class);
     }
 
     /**

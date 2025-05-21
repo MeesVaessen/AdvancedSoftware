@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: authentication-service
-          image: advancedsoftware.azurecr.io/authentication-service:latest
+          image: authentication-service:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 8000
           env:
@@ -23,7 +24,7 @@ spec:
             - name: DB_CONNECTION
               value: "mysql"
             - name: DB_HOST
-              value: "advanced-software.mysql.database.azure.com"
+              value: "authentication-db"
             - name: DB_PORT
               value: "3306"
             - name: DB_DATABASE
@@ -41,8 +42,6 @@ spec:
             limits:
               cpu: "1"  # 1 CPU core (maximum CPU)
               memory: "1Gi"  # 1 GiB of memory (upper limit)
-      imagePullSecrets:
-        - name: acr-secret
 ---
 apiVersion: v1
 kind: Service

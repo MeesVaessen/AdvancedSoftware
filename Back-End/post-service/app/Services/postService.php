@@ -36,12 +36,12 @@ class postService implements postServiceInterface
 
     public function like($data)
     {
-        return $this->postRepository->likePost($data);
+        return $this->postRepository->reactToPost($data, true);
 
     }
 
     public function dislike($data)
     {
-        return $this->postRepository->dislikePost($data);
+        return $this->postRepository->reactToPost($data, false);
     }
 }

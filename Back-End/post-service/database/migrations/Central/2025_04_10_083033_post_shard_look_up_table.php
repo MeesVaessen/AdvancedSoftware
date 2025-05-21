@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::connection('central')->create('post_shard_lookup', function (Blueprint $table) {
             $table->uuid('post_id')->primary();
-            $table->uuid('user_uuid');
             $table->string('shard');
             $table->timestamps();
         });
@@ -24,6 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::connection('central')->dropIfExists('post_shard_lookup');
+
     }
 };

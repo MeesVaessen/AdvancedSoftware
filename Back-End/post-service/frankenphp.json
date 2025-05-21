@@ -1,0 +1,8 @@
+{
+    "workers": {
+        "pool": {
+            "numThreads": 3,
+            "maxRequestsPerWorker": 700
+        }
+    }
+}

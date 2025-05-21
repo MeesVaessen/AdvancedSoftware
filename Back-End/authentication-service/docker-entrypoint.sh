@@ -1,22 +1,18 @@
 #!/bin/bash
 set -e
+sleep 5
 
-# Wait for MySQL to be ready (use the correct service name)
-echo "Waiting for database connection..."
-until nc -z -v -w30 $DB_HOST $DB_PORT; do
-  echo "Waiting for MySQL..."
-  sleep 5
-done
+if [ -z "$APP_KEY" ]; then
+  php artisan key:generate
+fi
+php artisan migrate
 
-echo "Database is ready!"
-
-# Run Laravel commands after MySQL is up
-php artisan migrate:fresh --seed --force
+# Clear caches
 php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
+php artisan octane:frankenphp
 
 # Start Laravel
 exec "$@"
-
